@@ -1,17 +1,23 @@
+# CodeDeploy version
 version: 0.0
+# windows / linux type of deployment
 os: linux
+# copy all files to the instance
 files:
-  - source: /index.html
+  - source: /app/
+    # Default NGINX location
     destination: /var/www/html/
+
 hooks:
   BeforeInstall:
-    - location: scripts/install_dependencies
-      timeout: 300
+    - location: deploy/scripts/install_dependencies.sh
+      timeout: 60
       runas: root
-    - location: scripts/start_server
-      timeout: 300
+    - location: deploy/scripts/start_server.sh
+      timeout: 10
       runas: root
+
   ApplicationStop:
-    - location: scripts/stop_server
-      timeout: 300
+    - location: deploy/scripts/stop_server.sh
+      timeout: 10
       runas: root
